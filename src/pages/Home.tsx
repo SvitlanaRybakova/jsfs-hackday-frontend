@@ -1,7 +1,7 @@
-import Card from "../components/Card";
-
-import { getCollections } from "../api";
+import { v4 as uuidv4 } from "uuid";
 import { useQuery } from "@tanstack/react-query";
+import { getCollections } from "../api";
+import Cell from "../components/Cell";
 
 interface Photo {
   collection: string;
@@ -21,12 +21,18 @@ const Home = () => {
   } = useQuery({ queryKey: ["collections"], queryFn: () => getCollections() });
 
   return (
-    <>
-      {collections &&
-        collections.data.map((card: Photo) => (
-          <Card title={card.collection} imagePath={card.url} />
-        ))}
-    </>
+    <div className="honeycomb-container">
+      <ul className="honeycomb">
+        {collections &&
+          collections.map((cell: Photo[]) => (
+            <Cell
+              imagePath={cell[0].url}
+              albumTitle={cell[0].collection}
+              key={uuidv4()}
+            />
+          ))}
+      </ul>
+    </div>
   );
 };
 

@@ -22,4 +22,4 @@ export const routes = [
 
 ];
 
-export const EDIT_PHOTOS_PATH = '/edit-photos';
+export const EDIT_PHOTOS_PATH = '/edit-collection/';
