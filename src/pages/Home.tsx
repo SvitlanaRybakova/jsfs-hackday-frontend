@@ -5,17 +5,9 @@ import { useQuery } from "@tanstack/react-query";
 import { getCollections } from "../api";
 import Cell from "../components/Cell";
 import Loader from "../components/Loader";
-
+import { Photo } from "../interfaces";
 import "react-toastify/dist/ReactToastify.css";
 
-interface Photo {
-  collection: string;
-  created: Date;
-  name: string;
-  path: string;
-  photoId: string;
-  url: string;
-}
 
 const Home = () => {
   const {
