@@ -8,7 +8,7 @@ import { MdCloudDownload } from "react-icons/md";
 import clsx from "clsx";
 import axios from "axios";
 
-import { getCollectionByTitle, deletePhoto } from "../api";
+import { getCollectionByTitle, deletePhoto, uploadPhoto } from "../api";
 import useHandleModal from "../hooks/useHandleModal";
 import Card from "../components/Card";
 import Modal from "../components/Modal";
@@ -37,8 +37,15 @@ const EditCollection = () => {
     status,
   } = useQuery({ queryKey: ["collection"], queryFn: () => getCollection() });
 
-  const mutation = useMutation({
+  const mutationDelete = useMutation({
     mutationFn: deletePhoto,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["collection"] });
+    },
+  });
+  
+   const mutationUpload = useMutation({
+    mutationFn: (files: File[]) => uploadPhoto(collectionName, files),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["collection"] });
     },
@@ -69,12 +76,14 @@ const EditCollection = () => {
 
   const handleDelete = (event: React.SyntheticEvent, id: string) => {
     event.preventDefault();
-    mutation.mutate(id);
+    mutationDelete.mutate(id);
   };
 
-  if (mutation.isError) showToast("error", mutation.error.message);
-  if (mutation.isSuccess) showToast("success", "Photo deleted successfully");
+  if (mutationDelete.isError) showToast("error", mutationDelete.error.message);
+  if (mutationDelete.isSuccess) showToast("success", "Photo deleted successfully");
   if (status === "error") showToast("error", error.message);
+  if (mutationUpload.isError) showToast("error", mutationUpload.error.message);
+  if (mutationUpload.isSuccess) showToast("success", "Photo added successfully");
   return (
     <div className="container mx-auto my-12 px-5">
       {isLoading && <Loader />}
@@ -120,7 +129,7 @@ const EditCollection = () => {
           ))}
       </div>
       <Modal showModal={showModal} handleModalClose={handleModalClose}>
-        <FileInput collectionName={collectionName} />
+        <FileInput collectionName={collectionName} mutation={mutationUpload}/>
       </Modal>
     </div>
   );

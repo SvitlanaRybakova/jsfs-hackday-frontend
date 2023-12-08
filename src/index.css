@@ -189,6 +189,7 @@ body {
   background-color: #f8f8f8;
   text-align: center;
   height: 100%;
+  cursor: pointer;
 }
 
 .drag-accept {

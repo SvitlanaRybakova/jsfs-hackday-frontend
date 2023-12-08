@@ -1,23 +1,14 @@
 import clsx from "clsx";
 import { useCallback } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useDropzone } from "react-dropzone";
-import { uploadPhoto } from "../api";
-import useToastMessages from "../hooks/useToastMessages";
+import { Photo } from "../interfaces";
 
 type FileInputProps = {
   collectionName: string | undefined;
+  mutation: (acceptedFiles: Photo[]) => Promise<unknown>;
 };
 
 const FileInput: React.FC<FileInputProps> = ({ collectionName, mutation }) => {
-  // const queryClient = useQueryClient();
-
-  // const mutation = useMutation({
-  //   mutationFn: (files: File[]) => uploadPhoto(collectionName, files),
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKey: ["collection"] });
-  //   },
-  // });
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -50,7 +41,6 @@ const FileInput: React.FC<FileInputProps> = ({ collectionName, mutation }) => {
     onDrop,
   });
 
-  
   return (
     <>
       <form

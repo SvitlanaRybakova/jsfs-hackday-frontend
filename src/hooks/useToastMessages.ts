@@ -1,19 +1,25 @@
-import { toast } from "react-toastify";
+import { useEffect } from "react";
+import { toast, ToastOptions } from "react-toastify";
 import { useRef } from "react";
 import "react-toastify/dist/ReactToastify.css";
 
-type ToastId = string | number; 
+type ToastType = "success" | "error";
+
 
 const useToastMessages = () => {
-  const toastIdRef = useRef<ToastId | null>(null);
 
-  const showToast = (type: string, message: string) => {
-    if (!toast.isActive(toastIdRef.current as ToastId)) {
-      if (type === "success") {
-        toast.success(message);
-      } else if (type === "error") {
-        toast.error(message);
-      }
+  const toastIdMap = useRef(new Map<string, number | string>());
+
+  useEffect(() => {
+    return () => {
+      toastIdMap.current.clear();
+    };
+  }, []);
+
+  const showToast = (type: ToastType, message: string, options?: ToastOptions) => {
+    if (!toastIdMap.current.has(message)) {
+      const toastId = type === "success" ? toast.success(message, options) : toast.error(message, options);
+      toastIdMap.current.set(message, toastId);
     }
   };
   return { showToast };

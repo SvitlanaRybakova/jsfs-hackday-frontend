@@ -20,7 +20,6 @@ export const deletePhoto = async (id: string) => {
 
 
 export const uploadPhoto = async (title: string| undefined, files: Array<Blob | File>) => {
-  console.log("HELLO FROM API", title);
   
   if(!title) throw new Error("Title is required");
   try {
