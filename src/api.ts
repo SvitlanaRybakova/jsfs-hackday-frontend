@@ -10,6 +10,11 @@ export const getCollections = async () => {
 
 export const getCollectionByTitle = async (title: string) => {
   const response = await axios.get(`${BASE_URL}/collections/${title}`);
-
   return response.data;
 };
+
+export const deletePhoto = async (id: string) => {
+  const response = await axios.delete(`${BASE_URL}/collections/${id}`);
+  return response.data;
+};
+

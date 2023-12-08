@@ -1,5 +1,5 @@
 import { useState, ChangeEvent } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { saveAs } from "file-saver";
 import { AiOutlineDelete } from "react-icons/ai";
@@ -8,7 +8,7 @@ import clsx from "clsx";
 import axios from "axios";
 
 import "react-toastify/dist/ReactToastify.css";
-import { getCollectionByTitle } from "../api";
+import { getCollectionByTitle, deletePhoto } from "../api";
 import useHandleModal from "../hooks/useHandleModal";
 import Card from "../components/Card";
 import Modal from "../components/Modal";
@@ -19,7 +19,8 @@ import { Photo } from "../interfaces";
 
 const EditCollection = () => {
   const { title } = useParams();
-
+  const queryClient = useQueryClient();
+  
   const getCollection = async () => {
     if (title) {
       const { data } = await getCollectionByTitle(title);
@@ -34,6 +35,13 @@ const EditCollection = () => {
     isLoading,
     status,
   } = useQuery({ queryKey: ["collection"], queryFn: () => getCollection() });
+
+  const mutation = useMutation({
+    mutationFn: deletePhoto,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["collection"] });
+    },
+  });
 
   const { handleModalShow, showModal, handleModalClose } = useHandleModal();
 
@@ -56,11 +64,13 @@ const EditCollection = () => {
     }
   };
 
-  const handleDelete = (event: React.SyntheticEvent) => {
+  const handleDelete = (event: React.SyntheticEvent, id: string) => {
     event.preventDefault();
-    // Todo delete the image
+    mutation.mutate(id);
   };
 
+  if (mutation.isError) toast.error(mutation.error.message);
+  if (mutation.isSuccess) toast.success("Photo deleted successfully");
   if (status === "error") toast.error(error.message);
   return (
     <div className="container mx-auto my-12 px-5">
@@ -97,7 +107,7 @@ const EditCollection = () => {
               <div
                 aria-label="button"
                 className="text-3xl text-slate-600 cursor-pointer hover:text-primery_pointer pl-5"
-                onClick={handleDelete}>
+                onClick={(e) => handleDelete(e, photo.photoId)}>
                 <AiOutlineDelete size={"22px"} />
               </div>
             </Card>

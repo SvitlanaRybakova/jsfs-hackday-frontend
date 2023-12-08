@@ -8,8 +8,7 @@ type CardProps = {
 };
 
 const Card: FC<CardProps> = ({ src, handleDownloadClick, children }) => {
-  console.log("hello from Card", src);
-  
+
   const handleClick = () => {
     handleDownloadClick && handleDownloadClick(src);
   };
