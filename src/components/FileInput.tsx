@@ -9,15 +9,15 @@ type FileInputProps = {
   collectionName: string | undefined;
 };
 
-const FileInput: React.FC<FileInputProps> = ({ collectionName }) => {
-  const queryClient = useQueryClient();
+const FileInput: React.FC<FileInputProps> = ({ collectionName, mutation }) => {
+  // const queryClient = useQueryClient();
 
-  const mutation = useMutation({
-    mutationFn: (files: File[]) => uploadPhoto(collectionName, files),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["collection"] });
-    },
-  });
+  // const mutation = useMutation({
+  //   mutationFn: (files: File[]) => uploadPhoto(collectionName, files),
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({ queryKey: ["collection"] });
+  //   },
+  // });
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -50,9 +50,7 @@ const FileInput: React.FC<FileInputProps> = ({ collectionName }) => {
     onDrop,
   });
 
-  const { showToast } = useToastMessages();
-  if (mutation.isError) showToast("error", mutation.error.message);
-  if (mutation.isSuccess) showToast("success", "Photo added successfully");
+  
   return (
     <>
       <form
