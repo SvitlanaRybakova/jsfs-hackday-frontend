@@ -1,21 +1,16 @@
-import axios from "axios";
+import { Route, Routes } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
 
 function App() {
-  const test = async () => {
-    try {
-      const response = await axios.get("http://localhost:3001/api/");
-      console.log(response.data); 
-
-      return response.data;
-    } catch (error) {
-      console.error("error", error);
-      throw error;
-    }
-  };
-
-  test();
-
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+  return (
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </>
+  );
 }
 
 export default App;
