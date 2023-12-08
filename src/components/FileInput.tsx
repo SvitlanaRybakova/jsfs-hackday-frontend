@@ -6,7 +6,7 @@ import { uploadPhoto } from "../api";
 import useToastMessages from "../hooks/useToastMessages";
 
 type FileInputProps = {
-  collectionName: string;
+  collectionName: string | undefined;
 };
 
 const FileInput: React.FC<FileInputProps> = ({ collectionName }) => {

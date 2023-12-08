@@ -162,3 +162,39 @@ body {
     display: block;
   }
 }
+
+.swiper-button-next, .swiper-button-prev {
+  color: white;
+}
+
+.swiper-scrollbar {
+  background-color: #ffffff78;
+}
+
+.swiper-scrollbar-drag {
+  background-color: white;
+  cursor: pointer;
+}
+
+.modal {
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  width: 600px;
+  height: 400px;
+}
+
+#dropzone-wrapper {
+  border-radius: 6px;
+  background-color: #f8f8f8;
+  text-align: center;
+  height: 100%;
+}
+
+.drag-accept {
+  background-color: #f3faf7 !important;
+}
+
+.drag-reject {
+  background-color: #fdf2f2 !important;
+}

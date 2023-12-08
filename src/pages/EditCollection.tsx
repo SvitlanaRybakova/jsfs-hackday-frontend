@@ -3,11 +3,11 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { saveAs } from "file-saver";
 import { AiOutlineDelete } from "react-icons/ai";
-// import { toast } from "react-toastify";
+
 import clsx from "clsx";
 import axios from "axios";
 
-// import "react-toastify/dist/ReactToastify.css";
+
 import { getCollectionByTitle, deletePhoto } from "../api";
 import useHandleModal from "../hooks/useHandleModal";
 import Card from "../components/Card";
@@ -62,7 +62,6 @@ const EditCollection = () => {
       saveAs(response.data, "image.jpg");
     } catch (error) {
       console.error("Error downloading image:", error);
-      toast.error((error as Error).message);
     }
   };
 
