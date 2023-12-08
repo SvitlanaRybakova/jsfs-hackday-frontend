@@ -18,3 +18,26 @@ export const deletePhoto = async (id: string) => {
   return response.data;
 };
 
+
+export const uploadPhoto = async (title: string, files: Array<Blob | File>) => {
+  
+  try {
+    const formData = new FormData();
+    formData.append("title", title);
+
+    files.forEach((file) => {
+      formData.append("photos", file);
+    });
+
+    const response = await axios.post(`${BASE_URL}/upload`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data.uploadedUrls;
+  } catch (error) {
+    console.error("Error uploading photo:", error);
+    throw new Error("Failed to upload photo");
+  }
+};

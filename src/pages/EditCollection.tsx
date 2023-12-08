@@ -20,7 +20,7 @@ import { Photo } from "../interfaces";
 const EditCollection = () => {
   const { title } = useParams();
   const queryClient = useQueryClient();
-  
+
   const getCollection = async () => {
     if (title) {
       const { data } = await getCollectionByTitle(title);
@@ -114,7 +114,7 @@ const EditCollection = () => {
           ))}
       </div>
       <Modal showModal={showModal} handleModalClose={handleModalClose}>
-        <FileInput />
+        <FileInput collectionName={collectionName}/>
       </Modal>
     </div>
   );

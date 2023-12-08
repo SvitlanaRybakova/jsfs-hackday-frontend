@@ -24,7 +24,7 @@ const Home = () => {
       {isLoading && <Loader />}
 
       <ul className="honeycomb">
-        {collections.length === 0 && <p>No collections</p>}
+        {collections?.length === 0 && <p>No collections</p>}
         {collections &&
           collections.map((cell: Photo[]) => (
             <Cell
