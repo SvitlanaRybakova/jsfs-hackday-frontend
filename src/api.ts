@@ -19,8 +19,8 @@ export const deletePhoto = async (id: string) => {
 };
 
 
-export const uploadPhoto = async (title: string, files: Array<Blob | File>) => {
-  
+export const uploadPhoto = async (title: string| undefined, files: Array<Blob | File>) => {
+  if(!title) throw new Error("Title is required");
   try {
     const formData = new FormData();
     formData.append("title", title);
