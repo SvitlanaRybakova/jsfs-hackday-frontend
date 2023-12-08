@@ -1,15 +1,26 @@
 import clsx from "clsx";
 import { useCallback } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useDropzone } from "react-dropzone";
 import { uploadPhoto } from "../api";
 
 import ProgressBar from "../components/ProgressBar";
+import { toast } from "react-toastify";
 
 type FileInputProps = {
   collectionName: string;
 };
 
 const FileInput: React.FC<FileInputProps> = ({ collectionName }) => {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: (files: File[]) => uploadPhoto(collectionName, files), 
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["collection"] });
+    },
+  });
+
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       if (!acceptedFiles.length) {
@@ -19,9 +30,9 @@ const FileInput: React.FC<FileInputProps> = ({ collectionName }) => {
       if (!collectionName) {
         return console.log("albumName is reqired");
       }
-      uploadPhoto(collectionName, acceptedFiles);
+      mutation.mutate(acceptedFiles);
     },
-    [collectionName]
+    [collectionName, mutation]
   );
 
   const {
@@ -41,6 +52,8 @@ const FileInput: React.FC<FileInputProps> = ({ collectionName }) => {
     onDrop,
   });
 
+  if (mutation.isError) toast.error(mutation.error.message);
+  if (mutation.isSuccess) toast.success("Photo added successfully");
   return (
     <>
       <form
