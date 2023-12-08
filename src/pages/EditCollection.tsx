@@ -3,11 +3,11 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { saveAs } from "file-saver";
 import { AiOutlineDelete } from "react-icons/ai";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import clsx from "clsx";
 import axios from "axios";
 
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 import { getCollectionByTitle, deletePhoto } from "../api";
 import useHandleModal from "../hooks/useHandleModal";
 import Card from "../components/Card";
@@ -16,6 +16,7 @@ import FileInput from "../components/FileInput";
 import InputForm from "../components/InputForm";
 import Loader from "../components/Loader";
 import { Photo } from "../interfaces";
+import useToastMessages from "../hooks/useToastMessages";
 
 const EditCollection = () => {
   const { title } = useParams();
@@ -43,6 +44,7 @@ const EditCollection = () => {
     },
   });
 
+  const {showToast} = useToastMessages()
   const { handleModalShow, showModal, handleModalClose } = useHandleModal();
 
   const [collectionName, setCollectionName] = useState(title);
@@ -69,9 +71,9 @@ const EditCollection = () => {
     mutation.mutate(id);
   };
 
-  if (mutation.isError) toast.error(mutation.error.message);
-  if (mutation.isSuccess) toast.success("Photo deleted successfully");
-  if (status === "error") toast.error(error.message);
+  if (mutation.isError) showToast("error", mutation.error.message) 
+  if (mutation.isSuccess) showToast("success", "Photo deleted successfully")
+  if (status === "error")  showToast("error", error.message) 
   return (
     <div className="container mx-auto my-12 px-5">
       {isLoading && <Loader />}

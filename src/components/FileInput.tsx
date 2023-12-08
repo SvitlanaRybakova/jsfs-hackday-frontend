@@ -3,9 +3,7 @@ import { useCallback } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useDropzone } from "react-dropzone";
 import { uploadPhoto } from "../api";
-
-import ProgressBar from "../components/ProgressBar";
-import { toast } from "react-toastify";
+import useToastMessages from "../hooks/useToastMessages";
 
 type FileInputProps = {
   collectionName: string;
@@ -15,7 +13,7 @@ const FileInput: React.FC<FileInputProps> = ({ collectionName }) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: (files: File[]) => uploadPhoto(collectionName, files), 
+    mutationFn: (files: File[]) => uploadPhoto(collectionName, files),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["collection"] });
     },
@@ -52,8 +50,9 @@ const FileInput: React.FC<FileInputProps> = ({ collectionName }) => {
     onDrop,
   });
 
-  if (mutation.isError) toast.error(mutation.error.message);
-  if (mutation.isSuccess) toast.success("Photo added successfully");
+  const { showToast } = useToastMessages();
+  if (mutation.isError) showToast("error", mutation.error.message);
+  if (mutation.isSuccess) showToast("success", "Photo added successfully");
   return (
     <>
       <form
@@ -104,8 +103,6 @@ const FileInput: React.FC<FileInputProps> = ({ collectionName }) => {
           )}
         </div>
       </form>
-      {/* todo show progress!!!! */}
-      {/* {!isSuccess ? '' : <ProgressBar progress={progress} />} */}
     </>
   );
 };
