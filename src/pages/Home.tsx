@@ -1,8 +1,11 @@
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
+
 import { getCollections } from "../api";
 import Cell from "../components/Cell";
+import Loader from "../components/Loader";
+
 import "react-toastify/dist/ReactToastify.css";
 
 interface Photo {
@@ -24,9 +27,10 @@ const Home = () => {
 
   if (status === "error") toast.error(error.message);
 
-
   return (
     <div className="honeycomb-container">
+      {isLoading && <Loader />}
+
       <ul className="honeycomb">
         {collections &&
           collections.map((cell: Photo[]) => (
