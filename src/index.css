@@ -193,9 +193,9 @@ body {
 }
 
 .drag-accept {
-  background-color: #f3faf7 !important;
+  background-color:  #d4eddb!important;
 }
 
 .drag-reject {
-  background-color: #fdf2f2 !important;
+  background-color: #f8d7db !important;
 }

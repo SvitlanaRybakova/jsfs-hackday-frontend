@@ -47,15 +47,15 @@ const GalleryItem: React.FC<GalleryItemProps> = ({ collectionName }) => {
         <h2 className='mr-4 uppercase'>{title}</h2>
         <Link
           to={EDIT_PHOTOS_PATH + title}
-          className='font-extrabold px-4 hover:text-primery_pointer'
+          className='font-extrabold px-4 hover:text-primery_pointer '
         >
           <CiEdit size={'24px'} />
         </Link>
         <div
           onClick={handleModalShow}
-          className='font-extrabold px-4 hover:text-primery_pointer'
+          className='font-extrabold px-4 hover:text-primery_pointer cursor-pointer' 
         >
-          <CiShare2 size={'24px'} />
+         <span> <CiShare2 size={'24px'} /></span>
         </div>
       </div>
 

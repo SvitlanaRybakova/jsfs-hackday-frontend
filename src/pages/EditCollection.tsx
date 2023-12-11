@@ -2,7 +2,7 @@ import { useState, ChangeEvent } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { saveAs } from "file-saver";
-import { AiOutlineDelete } from "react-icons/ai";
+import { RiDeleteBin6Fill } from "react-icons/ri";
 import { MdCloudDownload } from "react-icons/md";
 
 import clsx from "clsx";
@@ -123,7 +123,7 @@ const EditCollection = () => {
                 aria-label="button"
                 className="text-3xl text-slate-600 cursor-pointer hover:text-primery_pointer pl-5"
                 onClick={(e) => handleDelete(e, photo.photoId)}>
-                <AiOutlineDelete size={"22px"} />
+                <RiDeleteBin6Fill size={"22px"} />
               </div>
             </Card>
           ))}
